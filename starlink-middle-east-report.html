@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Starlink in the Middle East — rollout tracker & how it works</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#132238;--ink-2:#3d4c63;--ink-3:#7a8699;--paper:#eef1f5;--card:#ffffff;--line:#d5dbe4;--live:#0e8c7f;--live-bg:#dff3ef;--launch:#2f6fd6;--launch-bg:#e2ecfb;--sector:#b8860b;--sector-bg:#f8efd2;--licensed:#7c5cbf;--licensed-bg:#ece5fa;--pending:#8a94a6;--pending-bg:#e6e9ef;--blocked:#c24b3a;--blocked-bg:#f8e2de;--sky:#0b1633;--sky2:#1a2b5c;--ground:#eef1f5;--signal:#38c6b4;--laser:#ff7a59;--lock:#f2c94c;}
+*{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px}
+body{font-family:'Sora',system-ui,sans-serif;background:#eef1f5;color:#132238;line-height:1.5}
+.topnav{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid #d5dbe4;display:flex;align-items:center;gap:6px;padding:0 clamp(16px,4vw,56px);height:52px}
+.topnav .brand{font-weight:600;font-size:14px;margin-right:18px;color:#132238}
+.topnav a{text-decoration:none;color:#3d4c63;font-size:14px;padding:0 12px;height:52px;line-height:52px;border-bottom:3px solid transparent}
+.topnav a[aria-current="page"]{color:#132238;border-bottom-color:#0e8c7f;font-weight:500}
+.topnav a:focus-visible{outline:2px solid #2f6fd6;outline-offset:-4px}
+.pg{display:none}.pg.active{display:block}
+#pg-dash{font-family:'Sora',system-ui,sans-serif;background:var(--paper);color:var(--ink);padding:40px clamp(16px,4vw,56px) 64px}
+#pg-info{font-family:'Sora',system-ui,sans-serif;color:var(--ink);background:var(--ground);padding-bottom:40px}
+#pg-dash *{box-sizing:border-box;margin:0;padding:0}#pg-dash{font-size:16px}#pg-dash{font-family:'Sora',system-ui,sans-serif;background:var(--paper);color:var(--ink);line-height:1.5;padding:40px clamp(16px,4vw,56px) 64px}#pg-dash a{color:var(--launch)}#pg-dash h1{font-weight:600;font-size:clamp(28px,3.6vw,44px);letter-spacing:-.02em;line-height:1.1;max-width:20ch}#pg-dash .lede{color:var(--ink-2);max-width:62ch;margin-top:14px;font-size:15px}#pg-dash .meta{color:var(--ink-3);font-size:13px;margin-top:8px}#pg-dash .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin-top:36px}#pg-dash .kpi{background:var(--card);padding:18px 20px}#pg-dash .kpi b{display:block;font-size:34px;font-weight:600;letter-spacing:-.03em;line-height:1}#pg-dash .kpi span{display:block;color:var(--ink-2);font-size:13px;margin-top:6px}#pg-dash .kpi i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:1px}#pg-dash section{margin-top:44px}#pg-dash h2{font-size:20px;font-weight:600;letter-spacing:-.01em}#pg-dash .sub{color:var(--ink-2);font-size:14px;margin-top:4px;max-width:70ch}#pg-dash /* timeline */
+  .tl-wrap{background:var(--card);border:1px solid var(--line);padding:24px 24px 8px;margin-top:16px;overflow-x:auto}#pg-dash .tl{position:relative;min-width:760px;height:250px}#pg-dash .tl-axis{position:absolute;left:0;right:0;top:120px;height:2px;background:var(--ink)}#pg-dash .tl-year{position:absolute;top:130px;font-size:13px;color:var(--ink-2);transform:translateX(-50%)}#pg-dash .tl-year::before{content:"";position:absolute;top:-12px;left:50%;width:2px;height:8px;background:var(--ink)}#pg-dash .ev{position:absolute;transform:translateX(-50%);width:112px;text-align:center;cursor:default}#pg-dash .ev .dot{width:14px;height:14px;border-radius:50%;margin:0 auto;border:3px solid var(--card);box-shadow:0 0 0 2px currentColor}#pg-dash .ev .lbl{font-size:12.5px;line-height:1.25;color:var(--ink)}#pg-dash .ev .lbl small{display:block;color:var(--ink-3);font-size:11px;margin-top:2px}#pg-dash .ev.up{top:56px}#pg-dash .ev.up .lbl{margin-bottom:8px}#pg-dash .ev.down{top:114px}#pg-dash .ev.down .dot{margin-top:6px}#pg-dash .ev.down .lbl{margin-top:8px}#pg-dash .ev.up2{top:6px}#pg-dash .ev.up2 .lbl{margin-bottom:8px}#pg-dash .ev.up2 .dot{position:relative}#pg-dash .ev.up2 .dot::after{content:"";position:absolute;left:50%;top:14px;width:1px;height:50px;background:var(--line)}#pg-dash .ev.down2{top:114px}#pg-dash .ev.down2 .dot{margin-top:6px;position:relative}#pg-dash .ev.down2 .dot::after{content:"";position:absolute;left:50%;top:14px;width:1px;height:46px;background:var(--line)}#pg-dash .ev.down2 .lbl{margin-top:56px}#pg-dash /* filters + table */
+  .filters{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}#pg-dash .chip{border:1px solid var(--line);background:var(--card);padding:6px 12px;border-radius:999px;font:inherit;font-size:13px;color:var(--ink-2);cursor:pointer}#pg-dash .chip[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}#pg-dash .chip:focus-visible,#pg-dash .th button:focus-visible,#pg-dash tr.row:focus-visible{outline:2px solid var(--launch);outline-offset:2px}#pg-dash table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);margin-top:14px;font-size:14px}#pg-dash th{text-align:left;font-weight:500;color:var(--ink-2);padding:10px 14px;border-bottom:1px solid var(--line);font-size:13px;white-space:nowrap}#pg-dash th button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;padding:0}#pg-dash th button::after{content:" ↕";color:var(--ink-3)}#pg-dash th button[data-dir="asc"]::after{content:" ↑";color:var(--ink)}#pg-dash th button[data-dir="desc"]::after{content:" ↓";color:var(--ink)}#pg-dash td{padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top}#pg-dash tr.row{cursor:pointer}#pg-dash tr.row:hover td{background:#f7f9fb}#pg-dash tr.detail td{background:#f7f9fb;color:var(--ink-2);font-size:13.5px;padding:8px 14px 16px 44px}#pg-dash tr.detail ul{padding-left:16px}#pg-dash tr.detail li{margin:4px 0}#pg-dash .badge{display:inline-block;padding:3px 9px;border-radius:4px;font-size:12px;font-weight:500;white-space:nowrap}#pg-dash .b-live{background:var(--live-bg);color:var(--live)}#pg-dash .b-launch{background:var(--launch-bg);color:var(--launch)}#pg-dash .b-sector{background:var(--sector-bg);color:var(--sector)}#pg-dash .b-licensed{background:var(--licensed-bg);color:var(--licensed)}#pg-dash .b-pending{background:var(--pending-bg);color:#5c6677}#pg-dash .b-blocked{background:var(--blocked-bg);color:var(--blocked)}#pg-dash .caret{display:inline-block;width:18px;color:var(--ink-3);transition:transform .15s}#pg-dash tr.open .caret{transform:rotate(90deg)}#pg-dash .country{font-weight:500}#pg-dash .hidden{display:none}#pg-dash /* charts */
+  .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px;margin-top:16px}#pg-dash .panel{background:var(--card);border:1px solid var(--line);padding:20px}#pg-dash .panel h3{font-size:15px;font-weight:600}#pg-dash .panel p{font-size:13px;color:var(--ink-2);margin-top:2px}#pg-dash svg text{font-family:'Sora',sans-serif}#pg-dash .notes{margin-top:16px;background:var(--card);border:1px solid var(--line);padding:20px 24px;font-size:14px;color:var(--ink-2)}#pg-dash .notes ol{padding-left:20px}#pg-dash .notes li{margin:6px 0}@media (prefers-reduced-motion:reduce){#pg-dash *{transition:none!important}}@media (max-width:640px){#pg-dash td:nth-child(4),#pg-dash th:nth-child(4){display:none}}
+#pg-info *{box-sizing:border-box;margin:0;padding:0}#pg-info{font-family:'Sora',system-ui,sans-serif;color:var(--ink);background:var(--ground);line-height:1.5}#pg-info .page{max-width:1080px;margin:0 auto;background:var(--card);box-shadow:0 0 0 1px var(--line)}#pg-info /* hero: the sky */
+  .sky{background:linear-gradient(180deg,var(--sky) 0%,var(--sky2) 70%,#f4e9d6 100%);color:#fff;padding:44px 48px 0;position:relative;overflow:hidden}#pg-info .sky h1{font-size:clamp(30px,4.2vw,46px);font-weight:600;letter-spacing:-.02em;line-height:1.08;max-width:22ch}#pg-info .sky p{color:#c9d3ea;margin-top:12px;max-width:60ch;font-size:15px}#pg-info .scene{display:block;width:100%;margin-top:20px}#pg-info svg text{font-family:'Sora',sans-serif}#pg-info section{padding:36px 48px}#pg-info h2{font-size:22px;font-weight:600;letter-spacing:-.01em}#pg-info .sub{color:var(--ink-2);font-size:14px;margin-top:4px;max-width:68ch}#pg-info .steps{display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin-top:22px;counter-reset:s}#pg-info .step{border-top:3px solid var(--signal);padding:14px 14px 0 0;counter-increment:s;position:relative}#pg-info .step::before{content:counter(s);display:inline-block;width:26px;height:26px;border-radius:50%;background:var(--ink);color:#fff;font-size:13px;font-weight:600;text-align:center;line-height:26px}#pg-info .step h3{font-size:15px;font-weight:600;margin-top:10px}#pg-info .step p{font-size:13px;color:var(--ink-2);margin-top:6px}#pg-info .step b{display:block;font-size:12.5px;color:var(--ink);margin-top:8px;font-weight:500}#pg-info .specs{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:28px}#pg-info .spec{background:var(--card);padding:16px 18px}#pg-info .spec b{display:block;font-size:26px;font-weight:600;letter-spacing:-.02em;line-height:1}#pg-info .spec span{display:block;font-size:12.5px;color:var(--ink-2);margin-top:6px}#pg-info /* security */
+  .sec{background:var(--ink);color:#fff}#pg-info .sec h2{color:#fff}#pg-info .sec .sub{color:#b9c3d8}#pg-info .layers{display:grid;grid-template-columns:1.1fr 1fr;gap:32px;margin-top:24px;align-items:start}#pg-info .layer{display:grid;grid-template-columns:44px 1fr;gap:14px;padding:16px 0;border-top:1px solid #2b3b63}#pg-info .layer:last-child{border-bottom:1px solid #2b3b63}#pg-info .layer .ic{width:44px;height:44px;border-radius:8px;background:#1c2c55;display:grid;place-items:center}#pg-info .layer h3{font-size:15px;font-weight:600}#pg-info .layer p{font-size:13.5px;color:#c9d3ea;margin-top:4px}#pg-info .layer small{display:block;color:var(--lock);font-size:12px;margin-top:6px}#pg-info .gap{background:#1c2c55;border-left:4px solid var(--laser);padding:20px 22px}#pg-info .gap h3{font-size:15px;font-weight:600}#pg-info .gap ul{padding-left:18px;margin-top:10px}#pg-info .gap li{font-size:13.5px;color:#c9d3ea;margin:8px 0}#pg-info .gap li b{color:#fff;font-weight:500}#pg-info .path{margin-top:26px;background:#0f1d42;border:1px solid #2b3b63;padding:18px 20px}#pg-info .path h3{font-size:14px;font-weight:600;color:#fff}#pg-info .path svg{display:block;width:100%;margin-top:10px}#pg-info .foot{padding:20px 48px 32px;font-size:12px;color:var(--ink-3);border-top:1px solid var(--line)}@media (max-width:820px){#pg-info .sky,#pg-info section,#pg-info .foot{padding-left:22px;padding-right:22px}#pg-info .steps{grid-template-columns:1fr 1fr}#pg-info .specs{grid-template-columns:1fr 1fr}#pg-info .layers{grid-template-columns:1fr}
+  }@media (max-width:520px){#pg-info .steps{grid-template-columns:1fr}}@media print{#pg-info{background:#fff}#pg-info .page{box-shadow:none}}
+@media print{.topnav{display:none}.pg{display:block!important}}
+</style>
+</head>
+<body>
+<nav class="topnav" aria-label="Pages">
+  <span class="brand">Starlink · Middle East</span>
+  <a href="#dashboard" data-pg="pg-dash" aria-current="page">Rollout dashboard</a>
+  <a href="#how-it-works" data-pg="pg-info">How it works & security</a>
+</nav>
+
+<main>
+<div id="pg-dash" class="pg active">
+
+<header>
+  <h1>Starlink in the Middle East: who's live, who's licensed, who's blocked</h1>
+  <p class="lede">A country-by-country view of SpaceX's satellite-broadband rollout across 14 Middle Eastern markets, from the first Yemen licence in 2024 to Iraq's contested launch in mid-2026. Tap any country row for the regulatory history, pricing and open issues.</p>
+  <p class="meta">Compiled from public reporting to 30 September 2026. Status reflects consumer/business availability, not aviation or maritime roaming.</p>
+</header>
+
+<div class="kpis" id="kpis"></div>
+
+<section>
+  <h2>Rollout timeline</h2>
+  <p class="sub">Consumer launches accelerated sharply: three markets took two years (2024–25); five more arrived in the first nine months of 2026, three of them during the Iran war.</p>
+  <div class="tl-wrap"><div class="tl" id="tl"></div></div>
+</section>
+
+<section>
+  <h2>Country status</h2>
+  <p class="sub">Filter by status, sort by column, or click a row to expand.</p>
+  <div class="filters" id="filters" role="group" aria-label="Filter by status"></div>
+  <table id="tbl">
+    <thead><tr>
+      <th style="width:28px"></th>
+      <th><button data-key="name">Country</button></th>
+      <th><button data-key="statusOrder">Status</button></th>
+      <th><button data-key="licenceDate">First licence</button></th>
+      <th><button data-key="liveDate">Consumer launch</button></th>
+      <th>Entry pricing</th>
+    </tr></thead>
+    <tbody id="tbody"></tbody>
+  </table>
+</section>
+
+<section>
+  <h2>Two ways to read the pace</h2>
+  <div class="grid2">
+    <div class="panel">
+      <h3>Markets with consumer service, cumulative</h3>
+      <p>Count of countries where residents or businesses can subscribe.</p>
+      <svg id="cum" viewBox="0 0 420 220" width="100%" role="img" aria-label="Cumulative live markets by year"></svg>
+    </div>
+    <div class="panel">
+      <h3>Months from first licence to consumer launch</h3>
+      <p>Early Gulf licences sat idle for years; recent approvals convert in weeks.</p>
+      <svg id="gap" viewBox="0 0 420 220" width="100%" role="img" aria-label="Licence to launch gap by country"></svg>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>What to watch</h2>
+  <div class="notes">
+    <ol>
+      <li><b>Saudi Arabia</b> is the largest gap on the map. Aviation and maritime were approved in May 2025 and a local entity (Starlink KSA) exists, but there is still no residential licence from CST.</li>
+      <li><b>Iraq's gateway dispute.</b> The Communications Ministry argued in August 2026 that Iraqi traffic lands at a Qatar gateway; the regulator (CMC) denied it in late September and insists every terminal is registered and visible to security services. Expect pricing pressure too, at roughly $100/month entry.</li>
+      <li><b>Iran</b> is the only market where Starlink is both active (SpaceX enabled beams during the January 2026 blackout) and illegal, with terminals seized and the network declared a legitimate military target in April 2026.</li>
+      <li><b>Lebanon</b> holds a licence but has not activated service; the 2026 war makes a launch date unpredictable.</li>
+      <li><b>UAE's second licence.</b> Consumer service went live in March 2026 on the 2024 maritime licence; the 10-year General Space Services Licence issued 28 August 2026 puts it on firmer footing and opens government contracts.</li>
+    </ol>
+  </div>
+</section>
+
+
+</div>
+<div id="pg-info" class="pg">
+<div class="page">
+
+<header class="sky">
+  <h1>From a rooftop dish to the open internet in under 40 milliseconds</h1>
+  <p>Starlink is a mesh of thousands of small satellites 550 km up, talking to flat antennas on the ground and to each other by laser. Here's the path a packet takes, and where it is (and isn't) protected along the way.</p>
+
+  <svg class="scene" viewBox="0 0 1000 400" role="img" aria-label="Diagram: user terminal sends encrypted signal to a satellite; satellites relay by laser; a gateway on the ground decrypts and hands traffic to the internet">
+    <defs>
+      <linearGradient id="beam" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#38c6b4" stop-opacity=".0"/><stop offset="1" stop-color="#38c6b4" stop-opacity=".45"/></linearGradient>
+      <linearGradient id="beam2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#38c6b4" stop-opacity=".45"/><stop offset="1" stop-color="#38c6b4" stop-opacity="0"/></linearGradient>
+      <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#ff7a59"/></marker>
+    <g id="sat"><rect x="-38" y="-5" width="30" height="10" rx="1" fill="#7f9cd6"/><rect x="8" y="-5" width="30" height="10" rx="1" fill="#7f9cd6"/><rect x="-9" y="-9" width="18" height="18" rx="2" fill="#e8eefb"/><rect x="-5" y="12" width="10" height="4" fill="#c0cbe6"/></g>
+    </defs>
+    <!-- stars -->
+    <g fill="#fff" opacity=".6">
+      <circle cx="60" cy="30" r="1.2"/><circle cx="180" cy="70" r="1"/><circle cx="420" cy="20" r="1.4"/><circle cx="700" cy="45" r="1"/><circle cx="880" cy="25" r="1.3"/><circle cx="960" cy="90" r="1"/><circle cx="300" cy="110" r=".9"/><circle cx="560" cy="95" r="1.1"/>
+    </g>
+    <!-- orbit path -->
+    <path d="M-20,150 Q500,60 1020,150" fill="none" stroke="#3a4f86" stroke-width="1" stroke-dasharray="4 6"/>
+    <text x="500" y="72" font-size="11" fill="#8fa0c9" text-anchor="middle">Low Earth orbit, ~550 km</text>
+
+    <!-- satellites -->
+    <use href="#sat" x="200" y="118"/>
+    <use href="#sat" x="500" y="88"/>
+    <use href="#sat" x="800" y="118"/>
+    <!-- laser links -->
+    <line x1="238" y1="116" x2="462" y2="90" stroke="#ff7a59" stroke-width="2" marker-end="url(#arr)"/>
+    <line x1="538" y1="90" x2="762" y2="116" stroke="#ff7a59" stroke-width="2" marker-end="url(#arr)"/>
+    <text x="350" y="92" font-size="11" fill="#ffb59f" text-anchor="middle">optical laser links, 100 Gbps+</text>
+    <text x="650" y="92" font-size="11" fill="#ffb59f" text-anchor="middle">packets hop across the mesh</text>
+
+    <!-- uplink beam from dish to sat 1 -->
+    <polygon points="90,320 200,132 215,132 130,320" fill="url(#beam)"/>
+    <!-- downlink beam from sat 3 to gateway -->
+    <polygon points="795,132 810,132 900,320 860,320" fill="url(#beam2)"/>
+
+    <!-- ground -->
+    <rect x="0" y="320" width="1000" height="80" fill="#f4e9d6"/>
+    <line x1="0" y1="320" x2="1000" y2="320" stroke="#d8c9ad"/>
+
+    <!-- house + dish -->
+    <rect x="70" y="270" width="80" height="50" fill="#c9b899"/>
+    <polygon points="62,272 110,236 158,272" fill="#a99270"/>
+    <rect x="98" y="250" width="26" height="8" rx="2" fill="#e8eefb" transform="rotate(-25 111 254)"/>
+    <line x1="111" y1="258" x2="111" y2="272" stroke="#7a8699" stroke-width="2"/>
+    <text x="110" y="345" font-size="12" fill="#3d4c63" text-anchor="middle" font-weight="600">User terminal</text>
+    <text x="110" y="360" font-size="11" fill="#7a8699" text-anchor="middle">phased-array dish + Wi-Fi router</text>
+
+    <!-- lock on uplink -->
+    <g transform="translate(150 225)"><rect x="-10" y="-6" width="20" height="16" rx="3" fill="#f2c94c"/><path d="M-6,-6 v-5 a6,6 0 0 1 12,0 v5" fill="none" stroke="#f2c94c" stroke-width="3"/></g>
+    <text x="172" y="236" font-size="11" fill="#f2c94c">encrypted uplink (Ku band)</text>
+
+    <!-- gateway -->
+    <g transform="translate(880 300)">
+      <path d="M-30,20 a30,14 0 0 1 60,0 z" fill="#e8eefb"/><line x1="0" y1="20" x2="0" y2="6" stroke="#7a8699" stroke-width="2"/>
+    </g>
+    <rect x="850" y="300" width="60" height="20" fill="#c9b899"/>
+    <text x="880" y="345" font-size="12" fill="#3d4c63" text-anchor="middle" font-weight="600">Gateway earth station</text>
+    <text x="880" y="360" font-size="11" fill="#7a8699" text-anchor="middle">Ka band down, decrypts here</text>
+    <g transform="translate(830 250)"><rect x="-10" y="-6" width="20" height="16" rx="3" fill="#f2c94c"/><path d="M-6,-6 v-5 a6,6 0 0 1 12,0 v5" fill="none" stroke="#f2c94c" stroke-width="3" transform="rotate(20 6 -6)"/></g>
+    <text x="808" y="253" font-size="11" fill="#f2c94c" text-anchor="end">unlocked at the gateway</text>
+
+    <!-- fibre to PoP / internet -->
+    <line x1="910" y1="312" x2="1000" y2="312" stroke="#3d4c63" stroke-width="2" stroke-dasharray="3 3"/>
+    <text x="990" y="380" font-size="11" fill="#7a8699" text-anchor="end">fibre to PoP → internet</text>
+
+    <!-- latency callout -->
+    <rect x="360" y="300" width="280" height="44" rx="6" fill="#0b1633" stroke="#3a4f86"/>
+    <text x="500" y="320" font-size="12" fill="#fff" text-anchor="middle" font-weight="600">Typical round trip: 20–40 ms</text>
+    <text x="500" y="336" font-size="11" fill="#8fa0c9" text-anchor="middle">GEO satellites at 35,786 km: ~600 ms</text>
+  </svg>
+</header>
+
+<section>
+  <h2>How a packet gets there</h2>
+  <p class="sub">Five hand-offs, four radio or optical hops, one place where the data is decrypted.</p>
+  <div class="steps">
+    <div class="step"><h3>Dish finds a satellite</h3><p>The flat antenna is a phased array: hundreds of tiny elements steer the beam electronically, no moving parts. It tracks a satellite crossing the sky in a few minutes, then hands off to the next.</p><b>Uplink 14.0–14.5 GHz, Ku band</b></div>
+    <div class="step"><h3>Satellite receives and routes</h3><p>Each satellite is a router in orbit. It decides whether to bounce the packet straight down to a nearby gateway or forward it through the mesh.</p><b>Downlink 10.7–12.7 GHz to users</b></div>
+    <div class="step"><h3>Lasers cross the gaps</h3><p>Where there's no gateway below (oceans, deserts, unlicensed countries), satellites pass traffic to each other over optical links until one is above a gateway.</p><b>100 Gbps+ per laser link</b></div>
+    <div class="step"><h3>Gateway lands it</h3><p>A fibre-connected earth station receives the Ka-band downlink, decrypts the Starlink link layer and hands the packet to a Point of Presence.</p><b>Ka band 17.8–19.3 GHz down</b></div>
+    <div class="step"><h3>PoP joins the internet</h3><p>The PoP applies carrier-grade NAT, assigns the public IP and peers with the wider internet. Return traffic follows the same path in reverse.</p><b>Public IPv4 via CGNAT, IPv6 prefix delegation</b></div>
+  </div>
+
+  <div class="specs">
+    <div class="spec"><b>~550 km</b><span>orbital altitude, about 65× lower than geostationary satellites</span></div>
+    <div class="spec"><b>10,000+</b><span>satellites launched, the largest constellation ever flown</span></div>
+    <div class="spec"><b>~450 Tbps</b><span>total network capacity, serving 10 million+ users</span></div>
+    <div class="spec"><b>100–400 Mbps</b><span>typical download; plans in the Gulf advertise 100 Mbps entry tiers</span></div>
+  </div>
+</section>
+
+<section class="sec">
+  <h2>How it's secured, layer by layer</h2>
+  <p class="sub">Starlink's model is "the operator encrypts and controls the link." That protects against eavesdropping on the airwaves; it does not remove SpaceX, or the gateway's host country, from the trust chain.</p>
+
+  <div class="layers">
+    <div>
+      <div class="layer">
+        <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#f2c94c" stroke-width="2"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div>
+        <div><h3>Link encryption, dish to gateway</h3><p>Every radio hop and laser hop carries traffic encrypted with AES. Someone with a receiver pointed at the sky captures ciphertext, not your data.</p><small>Covers: dish → satellite → satellite → gateway</small></div>
+      </div>
+      <div class="layer">
+        <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#38c6b4" stroke-width="2"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <div><h3>Terminal authentication</h3><p>Each dish carries a unique device identity and certificate. The network only accepts sessions from registered hardware tied to an account, which is also how regulators (as in Iraq) can enumerate every active terminal.</p><small>Stops: cloned or unregistered dishes joining the network</small></div>
+      </div>
+      <div class="layer">
+        <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#38c6b4" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9 4v16M4 9h16"/></svg></div>
+        <div><h3>Secure boot and signed firmware</h3><p>The terminal will only run code signed by SpaceX, and firmware updates arrive over the encrypted link. Researchers who bypassed this in 2022 needed physical access and a voltage fault-injection board on the dish's circuit.</p><small>Stops: remote tampering with the dish's software</small></div>
+      </div>
+      <div class="layer">
+        <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#38c6b4" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg></div>
+        <div><h3>Carrier-grade NAT and no inbound by default</h3><p>Your home network sits behind the PoP's NAT, so devices aren't directly reachable from the internet unless you pay for a public IP and open them up yourself.</p><small>Reduces: exposure of devices behind the router</small></div>
+      </div>
+      <div class="layer">
+        <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#38c6b4" stroke-width="2"><path d="M12 3v18M5 8l7-5 7 5M5 16l7 5 7-5"/></svg></div>
+        <div><h3>Resilience through the mesh</h3><p>Thousands of nodes and laser routing mean no single satellite, gateway or cable is a chokepoint, which is why the network kept working through wartime blackouts and jamming attempts.</p><small>Resists: single-point outages and localized interference</small></div>
+      </div>
+    </div>
+
+    <div>
+      <div class="gap">
+        <h3>What the built-in encryption does not do</h3>
+        <ul>
+          <li><b>It ends at the gateway.</b> Traffic is decrypted at the SpaceX earth station before it reaches the internet. Anything you want private end-to-end still needs HTTPS, a VPN or your own encryptor, exactly as on any ISP.</li>
+          <li><b>The keys belong to SpaceX.</b> Governments and critical-infrastructure users treat this as operator-controlled encryption, and layer their own (increasingly quantum-resistant) encryption on top.</li>
+          <li><b>Jurisdiction follows the gateway.</b> If the nearest gateway is in another country, your decrypted traffic first touches ground there. This is the substance of Iraq's 2026 dispute over a Qatar gateway.</li>
+          <li><b>Physical access is still game over.</b> Like any device, a dish in an attacker's hands can be glitched into running custom code. SpaceX runs a bug bounty for exactly this research.</li>
+          <li><b>Availability can be switched off.</b> SpaceX can geofence, throttle or disable terminals by policy or law, which cuts both ways for users in contested regions.</li>
+        </ul>
+      </div>
+
+      <div class="path">
+        <h3>Where your data is readable along the path</h3>
+        <svg viewBox="0 0 440 90" role="img" aria-label="Encryption coverage along the path: encrypted from dish through satellites to gateway; plaintext at the Starlink link layer from gateway onward unless the application uses HTTPS or a VPN">
+          <line x1="20" y1="30" x2="420" y2="30" stroke="#2b3b63" stroke-width="6"/>
+          <line x1="20" y1="30" x2="290" y2="30" stroke="#f2c94c" stroke-width="6"/>
+          <line x1="290" y1="30" x2="420" y2="30" stroke="#ff7a59" stroke-width="6"/>
+          <g fill="#fff" font-size="10" text-anchor="middle">
+            <circle cx="20" cy="30" r="6" fill="#e8eefb"/><text x="20" y="56">Dish</text>
+            <circle cx="120" cy="30" r="6" fill="#e8eefb"/><text x="120" y="56">Satellite</text>
+            <circle cx="210" cy="30" r="6" fill="#e8eefb"/><text x="210" y="56">Satellite</text>
+            <circle cx="290" cy="30" r="6" fill="#e8eefb"/><text x="290" y="56">Gateway</text>
+            <circle cx="360" cy="30" r="6" fill="#e8eefb"/><text x="360" y="56">PoP</text>
+            <circle cx="420" cy="30" r="6" fill="#e8eefb"/><text x="420" y="56">Internet</text>
+          </g>
+          <text x="155" y="16" font-size="10.5" fill="#f2c94c" text-anchor="middle">Starlink link encryption (AES)</text>
+          <text x="355" y="16" font-size="10.5" fill="#ffb59f" text-anchor="middle">only your own HTTPS / VPN</text>
+          <text x="220" y="82" font-size="10" fill="#8fa0c9" text-anchor="middle">Best practice: run your own encryption so the whole bar is protected.</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<p class="foot">Frequencies, link speeds and encryption model from Starlink enterprise documentation as presented in 2025–26 technical briefings; security research references the KU Leuven COSIC fault-injection work (2022) and subsequent firmware analyses. Illustrations are schematic and not to scale.</p>
+
+</div>
+</div>
+</main>
+
+<script>
+(function(){
+  const map={'#dashboard':'pg-dash','#how-it-works':'pg-info'};
+  function show(){
+    const id=map[location.hash]||'pg-dash';
+    document.querySelectorAll('.pg').forEach(p=>p.classList.toggle('active',p.id===id));
+    document.querySelectorAll('.topnav a').forEach(a=>a.toggleAttribute('aria-current',a.dataset.pg===id)&&a.setAttribute('aria-current','page'));
+    document.querySelectorAll('.topnav a').forEach(a=>{ if(a.dataset.pg!==id) a.removeAttribute('aria-current'); });
+    window.scrollTo(0,0);
+  }
+  window.addEventListener('hashchange',show); show();
+})();
+</script>
+<script>
+
+const STATUS = {
+  live:     {label:'Live',                 cls:'b-live',     color:'var(--live)',     order:1},
+  launch:   {label:'Launching',            cls:'b-launch',   color:'var(--launch)',   order:2},
+  sector:   {label:'Aviation & maritime only', cls:'b-sector', color:'var(--sector)', order:3},
+  licensed: {label:'Licensed, not active', cls:'b-licensed', color:'var(--licensed)', order:4},
+  pending:  {label:'No licence',           cls:'b-pending',  color:'var(--pending)',  order:5},
+  blocked:  {label:'Banned / illegal',     cls:'b-blocked',  color:'var(--blocked)',  order:6},
+};
+
+const DATA = [
+  {name:'Yemen', status:'live', licenceDate:'2024-09', liveDate:'2024-09', price:'Not published',
+   notes:['First Middle East market. Five-year licence granted by the internationally recognised government in September 2024; commercial sales scaled up during 2025.','Service scope shaped by the civil war and the 2026 Bab al-Mandab crisis; coverage in Houthi-held areas is not sanctioned.']},
+  {name:'Qatar', status:'live', licenceDate:'2022-09', liveDate:'2024-05', price:'Business plans only',
+   notes:['Individual licence for public satellite networks issued September 2022; local entity Starlink Satellite Qatar W.L.L.','Qatar Airways signed the first Gulf in-flight Wi-Fi deal in May 2024 and rolled Starlink across its 777 fleet.','Consumer offer remains business-oriented rather than mass residential.']},
+  {name:'Israel', status:'live', licenceDate:'2024-02', liveDate:'2024-02', price:'Not published',
+   notes:['Approved in early 2024 with the service initially limited in scope. Listed as "Available now" on Starlink\'s map.']},
+  {name:'Oman', status:'live', licenceDate:'2025-03', liveDate:'2025-03', price:'Not published',
+   notes:['First GCC state with both residential and business plans, announced 27 March 2025 after TRA approval.','Framed by regulators as redundancy for fibre and coverage for remote/offshore energy sites.']},
+  {name:'Jordan', status:'live', licenceDate:'2022-11', liveDate:'2025-04', price:'Not published',
+   notes:['TRC ran the region\'s first live tests in late 2022 (100–200 Mbps in the south) but consumer launch waited until April 2025.','Positioned for remote communities lacking fixed broadband.']},
+  {name:'Bahrain', status:'live', licenceDate:'2022-04', liveDate:'2025-05', price:'Not published',
+   notes:['TRA licensed a SpaceX subsidiary as early as April 2022, one of the earliest approvals worldwide; service only became available in mid-May 2025, a 37-month gap.']},
+  {name:'Kuwait', status:'live', licenceDate:'2026-01', liveDate:'2026-03', price:'Kit KWD 209 (Standard) / KWD 179 (Mini); data plans 500 GB–5 TB',
+   notes:['Musk announced availability on 14 March 2026, two weeks into the Iran war and after licensing delays flagged in January.','Distributed through Sama X (Alghanim Industries) as authorised reseller, with monthly no-contract plans.']},
+  {name:'United Arab Emirates', status:'live', licenceDate:'2024-06', liveDate:'2026-03', price:'AED 230/mo Residential Lite; ~AED 300/mo Residential; kit AED 1,545',
+   notes:['TDRA issued a 10-year maritime-only licence in 2024; in-flight service on Emirates and flydubai followed in 2025.','Consumer service appeared on the availability map 18 March 2026.','A full 10-year General Space Services Licence was granted 28 August 2026 and formally announced 3 September, covering individuals, businesses and government.']},
+  {name:'Iraq', status:'launch', licenceDate:'2026-07', liveDate:'2026-07', price:'IQD 131,500/mo (~$100) for 100 Mbps',
+   notes:['Cabinet approved the licence 17 June 2026; CMC signed it in Washington on 17 July during the prime minister\'s US visit.','Subscriptions opened on Starlink\'s site in late July. On 27 September the CMC reiterated the service is legal and that authorities can identify every terminal and owner.','Open dispute: the Communications Minister claimed in August that the serving gateway is in Qatar and pushed FTTH as the national priority; the CMC denies the data-sovereignty claim but concedes there is no in-country gateway yet.']},
+  {name:'Saudi Arabia', status:'sector', licenceDate:'2025-05', liveDate:null, price:'No consumer tariff',
+   notes:['Approval for aviation and maritime announced by Musk at the Saudi-US Investment Forum, 13 May 2025.','A local entity, Starlink KSA, is registered; CST has not published a residential or business licence. Starlink\'s map shows "Pending regulatory approval".']},
+  {name:'Lebanon', status:'licensed', licenceDate:'2025', liveDate:null, price:'—',
+   notes:['Licence granted, but connectivity has not been activated (as of March 2026 reporting). Earlier pilot deployments predate the licence.','The war that began 2 March 2026 and the ceasefire since 16 April leave the launch timetable uncertain.']},
+  {name:'Egypt', status:'pending', licenceDate:null, liveDate:null, price:'—',
+   notes:['Sits in Starlink\'s "service date unknown" bucket; no licence application outcome has been made public.']},
+  {name:'Iran', status:'blocked', licenceDate:null, liveDate:null, price:'—',
+   notes:['Use of Starlink is illegal domestically. SpaceX switched beams on around 9 January 2026 during the protest-era internet blackout; access via smuggled terminals was reportedly free for a period.','Authorities seized hundreds of terminals in March 2026 after US–Israeli strikes; state media declared Starlink a "legitimate target" on 1 April 2026.']},
+  {name:'Syria', status:'blocked', licenceDate:null, liveDate:null, price:'—',
+   notes:['Explicitly listed as banned in Starlink\'s own availability data (May 2026), alongside Russia, China and Afghanistan.']},
+];
+
+// ---- KPIs
+const counts = {};
+DATA.forEach(d => counts[d.status] = (counts[d.status]||0)+1);
+document.getElementById('kpis').innerHTML = Object.entries(STATUS).map(([k,s]) =>
+  `<div class="kpi"><b>${counts[k]||0}</b><span><i style="background:${s.color}"></i>${s.label}</span></div>`).join('');
+
+// ---- Timeline
+const EVENTS = [
+  {d:'2022-04', t:'Bahrain licence', c:'licensed'},
+  {d:'2022-09', t:'Qatar licence', c:'licensed'},
+  {d:'2024-02', t:'Israel', c:'live'},
+  {d:'2024-06', t:'UAE maritime licence', c:'sector'},
+  {d:'2024-09', t:'Yemen', c:'live'},
+  {d:'2025-03', t:'Oman', c:'live'},
+  {d:'2025-04', t:'Jordan', c:'live'},
+  {d:'2025-05', t:'Bahrain', c:'live'},
+  {d:'2025-05', t:'Saudi aviation & maritime', c:'sector'},
+  {d:'2026-01', t:'Iran beams on (illegal)', c:'blocked'},
+  {d:'2026-03', t:'Kuwait', c:'live'},
+  {d:'2026-03', t:'UAE', c:'live'},
+  {d:'2026-07', t:'Iraq licence & launch', c:'launch'},
+  {d:'2026-08', t:'UAE 10-yr full licence', c:'live'},
+];
+const t0 = 2022, t1 = 2026.95;
+const toX = d => { const [y,m] = d.split('-').map(Number); return ((y + (m-1)/12) - t0)/(t1-t0)*100; };
+const tl = document.getElementById('tl');
+let html = '<div class="tl-axis"></div>';
+for (let y=2022;y<=2026;y++) html += `<div class="tl-year" style="left:${toX(y+'-01')}%">${y}</div>`;
+// stagger positions to avoid overlap
+const slots = ['up','down','up2','down2'];
+let lastX = -99, slotIdx = 0;
+EVENTS.forEach(e => {
+  const x = toX(e.d);
+  slotIdx = (x - lastX < 9) ? (slotIdx+1)%4 : 0;
+  lastX = x;
+  const s = STATUS[e.c];
+  const lbl = `<div class="lbl">${e.t}<small>${e.d.replace('-','/')}</small></div>`;
+  const dot = `<div class="dot" style="background:${s.color};color:${s.color}"></div>`;
+  const up = slots[slotIdx].startsWith('up');
+  html += `<div class="ev ${slots[slotIdx]}" style="left:${x}%">${up? lbl+dot : dot+lbl}</div>`;
+});
+tl.innerHTML = html;
+
+// ---- Filters
+let activeFilter = 'all';
+const filters = document.getElementById('filters');
+filters.innerHTML = `<button class="chip" data-f="all" aria-pressed="true">All (${DATA.length})</button>` +
+  Object.entries(STATUS).filter(([k])=>counts[k]).map(([k,s]) =>
+  `<button class="chip" data-f="${k}" aria-pressed="false">${s.label} (${counts[k]})</button>`).join('');
+filters.addEventListener('click', e => {
+  const b = e.target.closest('.chip'); if(!b) return;
+  activeFilter = b.dataset.f;
+  filters.querySelectorAll('.chip').forEach(c => c.setAttribute('aria-pressed', c===b));
+  render();
+});
+
+// ---- Table
+let sortKey = 'statusOrder', sortDir = 'asc';
+const fmt = d => d ? (d.length===7 ? new Date(d+'-01').toLocaleDateString('en-GB',{month:'short',year:'numeric'}) : d) : '—';
+function render(){
+  const rows = DATA.filter(d => activeFilter==='all' || d.status===activeFilter)
+    .map(d => ({...d, statusOrder: STATUS[d.status].order}))
+    .sort((a,b) => {
+      let va=a[sortKey], vb=b[sortKey];
+      if (va==null) va = sortDir==='asc' ? '\uffff' : '';
+      if (vb==null) vb = sortDir==='asc' ? '\uffff' : '';
+      const r = va>vb ? 1 : va<vb ? -1 : a.name.localeCompare(b.name);
+      return sortDir==='asc' ? r : -r;
+    });
+  document.getElementById('tbody').innerHTML = rows.map((d,i) => {
+    const s = STATUS[d.status];
+    return `<tr class="row" tabindex="0" data-i="${i}">
+      <td><span class="caret">▸</span></td>
+      <td class="country">${d.name}</td>
+      <td><span class="badge ${s.cls}">${s.label}</span></td>
+      <td>${fmt(d.licenceDate)}</td>
+      <td>${fmt(d.liveDate)}</td>
+      <td>${d.price}</td></tr>
+    <tr class="detail hidden"><td colspan="6"><ul>${d.notes.map(n=>`<li>${n}</li>`).join('')}</ul></td></tr>`;
+  }).join('');
+  document.querySelectorAll('th button').forEach(b => b.dataset.dir = b.dataset.key===sortKey ? sortDir : '');
+}
+document.querySelector('thead').addEventListener('click', e => {
+  const b = e.target.closest('button'); if(!b) return;
+  if (sortKey===b.dataset.key) sortDir = sortDir==='asc'?'desc':'asc'; else { sortKey=b.dataset.key; sortDir='asc'; }
+  render();
+});
+const toggle = tr => { tr.classList.toggle('open'); tr.nextElementSibling.classList.toggle('hidden'); };
+document.getElementById('tbody').addEventListener('click', e => { const tr = e.target.closest('tr.row'); if(tr) toggle(tr); });
+document.getElementById('tbody').addEventListener('keydown', e => { if((e.key==='Enter'||e.key===' ') && e.target.classList.contains('row')){ e.preventDefault(); toggle(e.target);} });
+render();
+
+// ---- Chart 1: cumulative live markets (step chart)
+(function(){
+  const live = DATA.filter(d=>d.liveDate && (d.status==='live'||d.status==='launch')).map(d=>d.liveDate).sort();
+  const pts = []; let n=0;
+  live.forEach(d => { n++; pts.push({x:toX(d), y:n}); });
+  const W=420,H=220,L=36,R=16,T=16,B=36, maxY=10;
+  const sx = x => L + x/100*(W-L-R);
+  const sy = y => T + (1 - y/maxY)*(H-T-B);
+  let path = `M${sx(0)},${sy(0)}`;
+  pts.forEach(p => { path += ` H${sx(p.x)} V${sy(p.y)}`; });
+  path += ` H${sx(100)}`;
+  let s = '';
+  for (let y=0;y<=maxY;y+=2) s += `<line x1="${L}" x2="${W-R}" y1="${sy(y)}" y2="${sy(y)}" stroke="#e3e7ee"/><text x="${L-8}" y="${sy(y)+4}" font-size="11" text-anchor="end" fill="#7a8699">${y}</text>`;
+  for (let y=2022;y<=2026;y++) s += `<text x="${sx(toX(y+'-01'))}" y="${H-12}" font-size="11" text-anchor="middle" fill="#7a8699">${y}</text>`;
+  s += `<path d="${path}" fill="none" stroke="#0e8c7f" stroke-width="2.5"/>`;
+  pts.forEach(p => s += `<circle cx="${sx(p.x)}" cy="${sy(p.y)}" r="3.5" fill="#0e8c7f"/>`);
+  const last = pts[pts.length-1];
+  s += `<text x="${sx(last.x)-8}" y="${sy(last.y)-10}" font-size="12" font-weight="600" text-anchor="end" fill="#132238">${last.y} markets, Sep 2026</text>`;
+  document.getElementById('cum').innerHTML = s;
+})();
+
+// ---- Chart 2: licence-to-launch gap (months)
+(function(){
+  const rows = DATA.filter(d=>d.licenceDate && d.liveDate && d.licenceDate.length===7 && d.liveDate.length===7)
+    .map(d => { const [y1,m1]=d.licenceDate.split('-').map(Number), [y2,m2]=d.liveDate.split('-').map(Number);
+      return {name:d.name.replace('United Arab Emirates','UAE'), months:(y2-y1)*12+(m2-m1)}; })
+    .filter(r=>r.months>0).sort((a,b)=>b.months-a.months);
+  const W=420,H=220,L=70,R=44,T=10,rowH=(H-T-10)/rows.length, maxM=Math.max(...rows.map(r=>r.months));
+  let s='';
+  rows.forEach((r,i) => {
+    const y=T+i*rowH, w=(r.months/maxM)*(W-L-R);
+    const col = r.months>24 ? '#7c5cbf' : r.months>12 ? '#b8860b' : '#0e8c7f';
+    s += `<text x="${L-8}" y="${y+rowH/2+4}" font-size="12" text-anchor="end" fill="#132238">${r.name}</text>
+          <rect x="${L}" y="${y+rowH*0.22}" width="${w}" height="${rowH*0.56}" fill="${col}" rx="2"/>
+          <text x="${L+w+6}" y="${y+rowH/2+4}" font-size="12" fill="#3d4c63">${r.months} mo</text>`;
+  });
+  document.getElementById('gap').innerHTML = s;
+})();
+
+</script>
+</body>
+</html>
