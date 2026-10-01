@@ -1,0 +1,230 @@
+{
+  "updated": "2026-09-30",
+  "countries": [
+    {
+      "name": "Yemen",
+      "status": "live",
+      "licenceDate": "2024-09",
+      "liveDate": "2024-09",
+      "price": "Not published",
+      "notes": [
+        "First Middle East market. Five-year licence granted by the internationally recognised government in September 2024; commercial sales scaled up during 2025.",
+        "Service scope shaped by the civil war and the 2026 Bab al-Mandab crisis; coverage in Houthi-held areas is not sanctioned."
+      ]
+    },
+    {
+      "name": "Qatar",
+      "status": "live",
+      "licenceDate": "2022-09",
+      "liveDate": "2024-05",
+      "price": "Business plans only",
+      "notes": [
+        "Individual licence for public satellite networks issued September 2022; local entity Starlink Satellite Qatar W.L.L.",
+        "Qatar Airways signed the first Gulf in-flight Wi-Fi deal in May 2024 and rolled Starlink across its 777 fleet.",
+        "Consumer offer remains business-oriented rather than mass residential."
+      ]
+    },
+    {
+      "name": "Israel",
+      "status": "live",
+      "licenceDate": "2024-02",
+      "liveDate": "2024-02",
+      "price": "Not published",
+      "notes": [
+        "Approved in early 2024 with the service initially limited in scope. Listed as \"Available now\" on Starlink's map."
+      ]
+    },
+    {
+      "name": "Oman",
+      "status": "live",
+      "licenceDate": "2025-03",
+      "liveDate": "2025-03",
+      "price": "Not published",
+      "notes": [
+        "First GCC state with both residential and business plans, announced 27 March 2025 after TRA approval.",
+        "Framed by regulators as redundancy for fibre and coverage for remote/offshore energy sites."
+      ]
+    },
+    {
+      "name": "Jordan",
+      "status": "live",
+      "licenceDate": "2022-11",
+      "liveDate": "2025-04",
+      "price": "Not published",
+      "notes": [
+        "TRC ran the region's first live tests in late 2022 (100–200 Mbps in the south) but consumer launch waited until April 2025.",
+        "Positioned for remote communities lacking fixed broadband."
+      ]
+    },
+    {
+      "name": "Bahrain",
+      "status": "live",
+      "licenceDate": "2022-04",
+      "liveDate": "2025-05",
+      "price": "Not published",
+      "notes": [
+        "TRA licensed a SpaceX subsidiary as early as April 2022, one of the earliest approvals worldwide; service only became available in mid-May 2025, a 37-month gap."
+      ]
+    },
+    {
+      "name": "Kuwait",
+      "status": "live",
+      "licenceDate": "2026-01",
+      "liveDate": "2026-03",
+      "price": "Kit KWD 209 (Standard) / KWD 179 (Mini); data plans 500 GB–5 TB",
+      "notes": [
+        "Musk announced availability on 14 March 2026, two weeks into the Iran war and after licensing delays flagged in January.",
+        "Distributed through Sama X (Alghanim Industries) as authorised reseller, with monthly no-contract plans."
+      ]
+    },
+    {
+      "name": "United Arab Emirates",
+      "status": "live",
+      "licenceDate": "2024-06",
+      "liveDate": "2026-03",
+      "price": "AED 230/mo Residential Lite; ~AED 300/mo Residential; kit AED 1,545",
+      "notes": [
+        "TDRA issued a 10-year maritime-only licence in 2024; in-flight service on Emirates and flydubai followed in 2025.",
+        "Consumer service appeared on the availability map 18 March 2026.",
+        "A full 10-year General Space Services Licence was granted 28 August 2026 and formally announced 3 September, covering individuals, businesses and government."
+      ]
+    },
+    {
+      "name": "Iraq",
+      "status": "launch",
+      "licenceDate": "2026-07",
+      "liveDate": "2026-07",
+      "price": "IQD 131,500/mo (~$100) for 100 Mbps",
+      "notes": [
+        "Cabinet approved the licence 17 June 2026; CMC signed it in Washington on 17 July during the prime minister's US visit.",
+        "Subscriptions opened on Starlink's site in late July. On 27 September the CMC reiterated the service is legal and that authorities can identify every terminal and owner.",
+        "Open dispute: the Communications Minister claimed in August that the serving gateway is in Qatar and pushed FTTH as the national priority; the CMC denies the data-sovereignty claim but concedes there is no in-country gateway yet."
+      ]
+    },
+    {
+      "name": "Saudi Arabia",
+      "status": "sector",
+      "licenceDate": "2025-05",
+      "liveDate": null,
+      "price": "No consumer tariff",
+      "notes": [
+        "Approval for aviation and maritime announced by Musk at the Saudi-US Investment Forum, 13 May 2025.",
+        "A local entity, Starlink KSA, is registered; CST has not published a residential or business licence. Starlink's map shows \"Pending regulatory approval\"."
+      ]
+    },
+    {
+      "name": "Lebanon",
+      "status": "licensed",
+      "licenceDate": "2025",
+      "liveDate": null,
+      "price": "—",
+      "notes": [
+        "Licence granted, but connectivity has not been activated (as of March 2026 reporting). Earlier pilot deployments predate the licence.",
+        "The war that began 2 March 2026 and the ceasefire since 16 April leave the launch timetable uncertain."
+      ]
+    },
+    {
+      "name": "Egypt",
+      "status": "pending",
+      "licenceDate": null,
+      "liveDate": null,
+      "price": "—",
+      "notes": [
+        "Sits in Starlink's \"service date unknown\" bucket; no licence application outcome has been made public."
+      ]
+    },
+    {
+      "name": "Iran",
+      "status": "blocked",
+      "licenceDate": null,
+      "liveDate": null,
+      "price": "—",
+      "notes": [
+        "Use of Starlink is illegal domestically. SpaceX switched beams on around 9 January 2026 during the protest-era internet blackout; access via smuggled terminals was reportedly free for a period.",
+        "Authorities seized hundreds of terminals in March 2026 after US–Israeli strikes; state media declared Starlink a \"legitimate target\" on 1 April 2026."
+      ]
+    },
+    {
+      "name": "Syria",
+      "status": "blocked",
+      "licenceDate": null,
+      "liveDate": null,
+      "price": "—",
+      "notes": [
+        "Explicitly listed as banned in Starlink's own availability data (May 2026), alongside Russia, China and Afghanistan."
+      ]
+    }
+  ],
+  "events": [
+    {
+      "d": "2022-04",
+      "t": "Bahrain licence",
+      "c": "licensed"
+    },
+    {
+      "d": "2022-09",
+      "t": "Qatar licence",
+      "c": "licensed"
+    },
+    {
+      "d": "2024-02",
+      "t": "Israel",
+      "c": "live"
+    },
+    {
+      "d": "2024-06",
+      "t": "UAE maritime licence",
+      "c": "sector"
+    },
+    {
+      "d": "2024-09",
+      "t": "Yemen",
+      "c": "live"
+    },
+    {
+      "d": "2025-03",
+      "t": "Oman",
+      "c": "live"
+    },
+    {
+      "d": "2025-04",
+      "t": "Jordan",
+      "c": "live"
+    },
+    {
+      "d": "2025-05",
+      "t": "Bahrain",
+      "c": "live"
+    },
+    {
+      "d": "2025-05",
+      "t": "Saudi aviation & maritime",
+      "c": "sector"
+    },
+    {
+      "d": "2026-01",
+      "t": "Iran beams on (illegal)",
+      "c": "blocked"
+    },
+    {
+      "d": "2026-03",
+      "t": "Kuwait",
+      "c": "live"
+    },
+    {
+      "d": "2026-03",
+      "t": "UAE",
+      "c": "live"
+    },
+    {
+      "d": "2026-07",
+      "t": "Iraq licence & launch",
+      "c": "launch"
+    },
+    {
+      "d": "2026-08",
+      "t": "UAE 10-yr full licence",
+      "c": "live"
+    }
+  ]
+}

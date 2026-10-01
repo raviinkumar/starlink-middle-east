@@ -42,7 +42,7 @@ body{font-family:'Sora',system-ui,sans-serif;background:#eef1f5;color:#132238;li
 <header>
   <h1>Starlink in the Middle East: who's live, who's licensed, who's blocked</h1>
   <p class="lede">A country-by-country view of SpaceX's satellite-broadband rollout across 14 Middle Eastern markets, from the first Yemen licence in 2024 to Iraq's contested launch in mid-2026. Tap any country row for the regulatory history, pricing and open issues.</p>
-  <p class="meta">Compiled from public reporting to 30 September 2026. Status reflects consumer/business availability, not aviation or maritime roaming.</p>
+  <p class="meta">Compiled from public reporting to <span id="updated">30 September 2026</span>. Status reflects consumer/business availability, not aviation or maritime roaming.</p>
 </header>
 
 <div class="kpis" id="kpis"></div>
@@ -287,7 +287,7 @@ const STATUS = {
   blocked:  {label:'Banned / illegal',     cls:'b-blocked',  color:'var(--blocked)',  order:6},
 };
 
-const DATA = [
+let DATA = [
   {name:'Yemen', status:'live', licenceDate:'2024-09', liveDate:'2024-09', price:'Not published',
    notes:['First Middle East market. Five-year licence granted by the internationally recognised government in September 2024; commercial sales scaled up during 2025.','Service scope shaped by the civil war and the 2026 Bab al-Mandab crisis; coverage in Houthi-held areas is not sanctioned.']},
   {name:'Qatar', status:'live', licenceDate:'2022-09', liveDate:'2024-05', price:'Business plans only',
@@ -318,6 +318,20 @@ const DATA = [
    notes:['Explicitly listed as banned in Starlink\'s own availability data (May 2026), alongside Russia, China and Afghanistan.']},
 ];
 
+
+async function init(){
+  try{
+    const r=await fetch('data.json',{cache:'no-store'});
+    if(r.ok){ const j=await r.json();
+      if(Array.isArray(j.countries)&&j.countries.length){ DATA=j.countries; EVENTS=j.events||EVENTS;
+        if(j.updated) document.getElementById('updated').textContent=new Date(j.updated).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'}); }
+    }
+  }catch(e){ /* offline or file:// — use embedded snapshot */ }
+  try{
+    const r=await fetch('snapshots/availability-me.json',{cache:'no-store'});
+    if(r.ok){ const j=await r.json(); const ISO={'United Arab Emirates':'AE',Bahrain:'BH',Egypt:'EG',Israel:'IL',Iraq:'IQ',Iran:'IR',Jordan:'JO',Kuwait:'KW',Lebanon:'LB',Oman:'OM',Qatar:'QA','Saudi Arabia':'SA',Syria:'SY',Yemen:'YE'};
+      DATA.forEach(d=>{ const st=j.status&&j.status[ISO[d.name]]; if(st) d.official=`Starlink's own map (checked ${j.checked}): ${st}`; }); }
+  }catch(e){}
 // ---- KPIs
 const counts = {};
 DATA.forEach(d => counts[d.status] = (counts[d.status]||0)+1);
@@ -325,7 +339,7 @@ document.getElementById('kpis').innerHTML = Object.entries(STATUS).map(([k,s]) =
   `<div class="kpi"><b>${counts[k]||0}</b><span><i style="background:${s.color}"></i>${s.label}</span></div>`).join('');
 
 // ---- Timeline
-const EVENTS = [
+let EVENTS = [
   {d:'2022-04', t:'Bahrain licence', c:'licensed'},
   {d:'2022-09', t:'Qatar licence', c:'licensed'},
   {d:'2024-02', t:'Israel', c:'live'},
@@ -396,7 +410,7 @@ function render(){
       <td>${fmt(d.licenceDate)}</td>
       <td>${fmt(d.liveDate)}</td>
       <td>${d.price}</td></tr>
-    <tr class="detail hidden"><td colspan="6"><ul>${d.notes.map(n=>`<li>${n}</li>`).join('')}</ul></td></tr>`;
+    <tr class="detail hidden"><td colspan="6"><ul>${d.notes.map(n=>`<li>${n}</li>`).join('')}</ul>${d.official?`<p style="margin-top:8px;font-size:12.5px;color:var(--ink-3)">${d.official}</p>`:''}</td></tr>`;
   }).join('');
   document.querySelectorAll('th button').forEach(b => b.dataset.dir = b.dataset.key===sortKey ? sortDir : '');
 }
@@ -449,6 +463,9 @@ render();
   document.getElementById('gap').innerHTML = s;
 })();
 
+
+}
+init();
 </script>
 </body>
 </html>

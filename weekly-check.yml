@@ -1,0 +1,36 @@
+name: Weekly source check
+
+on:
+  schedule:
+    - cron: "0 6 * * 1"     # every Monday 06:00 UTC
+  workflow_dispatch:         # run manually from the Actions tab
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Check Starlink map, GeoIP feed and news
+        id: check
+        run: python scripts/check_sources.py
+
+      - name: Open pull request with this week's digest
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: auto/weekly-check
+          title: ${{ steps.check.outputs.title }}
+          body-path: REPORT.md
+          commit-message: "chore: weekly source snapshot"
+          add-paths: |
+            snapshots/*.json
+            reports/*.md
+          delete-branch: true
