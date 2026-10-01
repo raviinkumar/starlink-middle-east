@@ -1,0 +1,37 @@
+name: Weekly source check
+
+on:
+  schedule:
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Check sources
+        id: check
+        run: python scripts/check_sources.py
+
+      - name: Save snapshots
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git add snapshots reports
+          git commit -m "chore: weekly source snapshot" || echo "nothing to commit"
+          git push
+
+      - name: Post digest as an issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh issue create --title "${{ steps.check.outputs.title }}" --body-file REPORT.md
